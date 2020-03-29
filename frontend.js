@@ -7,8 +7,10 @@ ws.onopen = function () {
 
 ws.onmessage = function (ev) {
     console.log(ev);
-    var button = document.getElementById(ev.data)
-    button.disabled = false
+    if (ev.data != "connected") {
+        var button = document.getElementById(ev.data)
+        button.disabled = false
+    }
 }
 
 disableButton = function (buttonId) {
@@ -23,40 +25,42 @@ awaitResponse = function (buttonId) {
 }
 
 
-var RADIUS = 200;
-var PADDING = 20;
-var SLICES = 4;
+var DPadRadius = 200;
+var DPadPadding = 20;
+var DpadSlices = 4;
 
 var DPadsvg = "";
 
-for(var i = 0; i < SLICES; i++){
+var DPadDirections = ["Down", "Left", "Up", "Right"]
+
+for(var i = 0; i < DpadSlices; i++){
     var p1 = {
-        x : Math.cos(Math.PI*2/SLICES * i) * RADIUS + RADIUS + PADDING,
-        y : Math.sin(Math.PI*2/SLICES * i) * RADIUS + RADIUS + PADDING
+        x : Math.cos(Math.PI*2/DpadSlices * i) * DPadRadius + DPadRadius + DPadPadding,
+        y : Math.sin(Math.PI*2/DpadSlices * i) * DPadRadius + DPadRadius + DPadPadding
     };
     
     var p2 = {
-        x : Math.cos(Math.PI*2/SLICES * (i+1)) * RADIUS + RADIUS + PADDING,
-        y : Math.sin(Math.PI*2/SLICES * (i+1)) * RADIUS + RADIUS + PADDING
+        x : Math.cos(Math.PI*2/DpadSlices * (i+1)) * DPadRadius + DPadRadius + DPadPadding,
+        y : Math.sin(Math.PI*2/DpadSlices * (i+1)) * DPadRadius + DPadRadius + DPadPadding
     };
     
     var p4 = {
-        x : Math.cos(Math.PI*2/SLICES * i) * (RADIUS/2) + RADIUS + PADDING,
-        y : Math.sin(Math.PI*2/SLICES * i) * (RADIUS/2) + RADIUS + PADDING
+        x : Math.cos(Math.PI*2/DpadSlices * i) * (DPadRadius/2) + DPadRadius + DPadPadding,
+        y : Math.sin(Math.PI*2/DpadSlices * i) * (DPadRadius/2) + DPadRadius + DPadPadding
     };
     
     var p3 = {
-        x : Math.cos(Math.PI*2/SLICES * (i+1)) * (RADIUS/2) + RADIUS + PADDING,
-        y : Math.sin(Math.PI*2/SLICES * (i+1)) * (RADIUS/2) + RADIUS + PADDING
+        x : Math.cos(Math.PI*2/DpadSlices * (i+1)) * (DPadRadius/2) + DPadRadius + DPadPadding,
+        y : Math.sin(Math.PI*2/DpadSlices * (i+1)) * (DPadRadius/2) + DPadRadius + DPadPadding
     };
     
     
-    DPadsvg += "<path d='M "+(RADIUS+PADDING)+" "+(RADIUS+PADDING)+" L "+p3.x+" "+p3.y+" A "+(RADIUS/2)+" "+(RADIUS/2)+" 0 0 0 "+p4.x+" "+p4.y+" z' fill='none' stroke='white' onclick='alert(\"inner-"+i+"\")'/>";
+    // DPadsvg += "<path d='M "+(RADIUS+PADDING)+" "+(RADIUS+PADDING)+" L "+p3.x+" "+p3.y+" A "+(RADIUS/2)+" "+(RADIUS/2)+" 0 0 0 "+p4.x+" "+p4.y+" z' fill='none' stroke='white' onclick='alert(\"inner-"+i+"\")'/>";
     
-    DPadsvg += "<path d='M "+p1.x+" "+p1.y+" A "+RADIUS+" "+RADIUS+" 0 0 1 "+p2.x+" "+p2.y+"  L "+p3.x+" "+p3.y+" A "+RADIUS/2+" "+RADIUS/2+" 0 0 0 "+p4.x+" "+p4.y+"  z' fill='green' stroke='white' onclick='alert(\"outer-"+i+"\")'/>";
+    DPadsvg += "<path d='M "+p1.x+" "+p1.y+" A "+DPadRadius+" "+DPadRadius+" 0 0 1 "+p2.x+" "+p2.y+"  L "+p3.x+" "+p3.y+" A "+DPadRadius/2+" "+DPadRadius/2+" 0 0 0 "+p4.x+" "+p4.y+"  z' fill='green' stroke='white' id=DPadDirections[i]  onclick='alert(\"outer-"+DPadDirections[i]+"\")'/>";
 }
 
-DPadsvg = "<svg height='"+(RADIUS*2 + PADDING*2)+"px' width='"+(RADIUS*2 + PADDING*2)+"px' transform=\"rotate(45)\">" + DPadsvg + "</svg>";
+DPadsvg = "<svg height='"+(DPadRadius*2 + DPadPadding*2)+"px' width='"+(DPadRadius*2 + DPadPadding*2)+"px' transform=\"rotate(45)\">" + DPadsvg + "</svg>";
 
 
 function insertDPad() {
