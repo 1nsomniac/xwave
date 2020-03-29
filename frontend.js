@@ -28,7 +28,29 @@ awaitResponse = function (buttonId) {
 
 //  this is where the where the math for drawing the svg is done, scaling is based on the DPadRadius variable
 
-var DPadRadius = 200;
+
+// window.addEventListener('resize', reportWindowSize)
+
+var intViewportWidth = window.innerWidth
+var intViewportHeight = window.innerHeight
+
+// function reportWindowSize() {
+//     // heightOutput.textContent = window.innerHeight;
+//     // widthOutput.textContent = window.innerWidth;
+//     intViewportWidth = window.innerWidth
+//     intViewportHeight = window.innerHeight
+    
+// }
+
+
+var DPadRadius = 0;
+var DPadPercentOfHeight = 70
+if (intViewportWidth > intViewportHeight) {
+    DPadRadius = intViewportHeight*DPadPercentOfHeight*.005
+} else {
+    DPadRadius = intViewportWidth*DPadPercentOfHeight*.005
+}
+
 var DPadPadding = 20;
 var DpadSlices = 4;
 
@@ -90,12 +112,12 @@ DPadsvg += "<text zIndex=\"-1\" transform=\"rotate(-45)\" x="+cp3.y*0.46875+" y=
 
 // <text transform="rotate(-45)" x="-150" y="320" text-anchor="middle" alignment-baseline="auto">Surf Left</text>
 
-DPadsvg = "<svg height='"+(DPadRadius*2 + DPadPadding*2)+"px' width='"+(DPadRadius*2 + DPadPadding*2)+"px' transform=\"rotate(45)\">" + DPadsvg + "</svg>";
+DPadsvg = "<svg id=\"DPad\" height='"+(DPadRadius*2 + DPadPadding*2)+"px' width='"+(DPadRadius*2 + DPadPadding*2)+"px' transform=\"rotate(45)\">" + DPadsvg + "</svg>";
 
 
 function insertDPad() {
-    console.log("hi, I'm inserting this svg thing. " + DPadsvg) 
-    document.getElementById("DPad").insertAdjacentHTML("afterend", 
+    // console.log("hi, I'm inserting this svg thing. " + DPadsvg) 
+    document.getElementById("DPadBox").insertAdjacentHTML("afterend", 
         DPadsvg); 
 } 
 window.addEventListener('DOMContentLoaded', (event) => {
