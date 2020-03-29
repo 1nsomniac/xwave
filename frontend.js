@@ -8,3 +8,8 @@ ws.onopen = function () {
 ws.onmessage = function (ev) {
     console.log(ev);
 }
+
+disableButton = function (buttonId) {
+    var x = document.getElementById(buttonId)
+    x.disabled = true
+}
